@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "SolarTab",
+    "version": "1.0",
+    "description" : "Real time solar system visualization",
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    }
+
+}
