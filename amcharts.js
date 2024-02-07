@@ -1,3 +1,12 @@
+// Retrieve time zone information 
+
+
+
+
+
+
+
+// Globe rendering 
 am5.ready(function() {
 
 // Create root element
@@ -15,7 +24,7 @@ root.setThemes([
 var chart = root.container.children.push(am5map.MapChart.new(root, {
   panX: "rotateX",
   panY: "rotateY",
-  projection: am5map.geoMercator()
+  projection: am5map.geoOrthographic()
 }));
 
 // Create series for background fill
@@ -312,3 +321,13 @@ function eccentricityEarthOrbit(centuries) {
 }
 
 }); // end am5.ready()
+
+const clock = document.querySelector('#time'); 
+function updateTime() {
+    const today = new Date();
+    clock.textContent = today.toLocaleTimeString();
+    setTimeout(updateTime, 1000);
+}
+
+updateTime();
+

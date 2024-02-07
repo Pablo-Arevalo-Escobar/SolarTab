@@ -9,16 +9,20 @@
         <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
         <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
         <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-        <script src="amcharts.js"></script>
+        <script src="amcharts.js" defer></script>
+
+        <!-- Resources fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
 
     <body>
         <div id ="chartdiv"></div>
         <div class="layout">
-            <div > 
-                HELLO SOLAR SYSTEM!
-            </div>
-            <div > </div>
+            <div id="time"> 00::00::00 </div>
+            <div id="city"> Montreal </div>
+            <div> HELLO SOLAR SYSTEM ! </div>
         </div>
     </body>
 </html>
