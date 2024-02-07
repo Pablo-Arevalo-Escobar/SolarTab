@@ -3,7 +3,8 @@
 
 
 
-
+const backgroundColor = 0x0b3678;
+const polygonColor = 0x0d3618;
 
 
 // Globe rendering 
@@ -31,9 +32,8 @@ var chart = root.container.children.push(am5map.MapChart.new(root, {
 // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
 var backgroundSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {}));
 backgroundSeries.mapPolygons.template.setAll({
-  fill: root.interfaceColors.get("alternativeBackground"),
-  fillOpacity: 0,
-  strokeOpacity: 0
+  fill: am5.color(backgroundColor),
+  stroke: am5.color(backgroundColor)
 });
 
 // Add background polygon
@@ -47,6 +47,12 @@ backgroundSeries.data.push({
 var polygonSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {
   geoJSON: am5geodata_worldLow
 }));
+
+// Set polygon series colour
+polygonSeries.mapPolygons.template.setAll({
+	tooltipText: "{name}",
+	fill: am5.color(polygonColor)
+});
 
 // Create point series for Sun icon
 // https://www.amcharts.com/docs/v5/charts/map-chart/map-point-series/
@@ -108,49 +114,6 @@ var container = chart.children.push(
   })
 );
 
-var playButton = container.children.push(
-  am5.Button.new(root, {
-    themeTags: ["play"],
-    centerY: am5.p50,
-    marginRight: 15,
-    icon: am5.Graphics.new(root, {
-      themeTags: ["icon"]
-    })
-  })
-);
-
-playButton.events.on("click", function () {
-  if (playButton.get("active")) {
-    slider.set("start", slider.get("start") + 0.0001);
-  } else {
-    slider.animate({
-      key: "start",
-      to: 1,
-      duration: 15000 * (1 - slider.get("start"))
-    });
-  }
-});
-
-var slider = container.children.push(
-  am5.Slider.new(root, {
-    orientation: "horizontal",
-    start: 0.5,
-    centerY: am5.p50
-  })
-);
-
-slider.on("start", function (start) {
-  if (start === 1) {
-    playButton.set("active", false);
-  }
-});
-
-slider.events.on("rangechanged", function () {
-  updateDateNight(
-    (slider.get("start", 0) - 0.5) * am5.time.getDuration("day", 2) +
-      new Date().getTime()
-  );
-});
 
 var cont = chart.children.push(
   am5.Container.new(root, {
@@ -182,12 +145,10 @@ switchButton.on("active", function () {
     chart.set("projection", am5map.geoMercator());
     chart.set("panY", "translateY");
     chart.set("panX", "translateX");
-    backgroundSeries.mapPolygons.template.set("fillOpacity", 0);
   } else {
     chart.set("projection", am5map.geoOrthographic());
     chart.set("panY", "rotateY");
     chart.set("panX", "rotateX");
-    backgroundSeries.mapPolygons.template.set("fillOpacity", 0.1);
   }
 });
 cont.children.push(
@@ -320,14 +281,18 @@ function eccentricityEarthOrbit(centuries) {
   return 0.016708634 - centuries * (0.000042037 + 0.0000001267 * centuries);
 }
 
-}); // end am5.ready()
 
 const clock = document.querySelector('#time'); 
 function updateTime() {
     const today = new Date();
     clock.textContent = today.toLocaleTimeString();
     setTimeout(updateTime, 1000);
+    updateDateNight(today);
 }
 
 updateTime();
+
+
+
+}); // end am5.ready()
 
